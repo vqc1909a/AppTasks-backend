@@ -8,6 +8,6 @@ module.exports = async (req, res, next) => {
           req.user = user;
           next();
      }catch(err){
-          return res.status(404).json({message: "Token inválido"});
+          return res.status(404).json({message: "Tiempo de sesión terminado"});
      }
 }

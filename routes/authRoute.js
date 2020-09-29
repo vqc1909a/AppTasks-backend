@@ -16,7 +16,7 @@ Router.post('/signup', signup, async (req, res) => {
           const hash = bcrypt.hashSync(user.password, 10);
           user.password = hash;
           const usersaved = await user.save();
-          const token = jwt.sign({_id: usersaved._id}, process.env.TOKEN_SECRET, {expiresIn: "1h"});
+          const token = jwt.sign({_id: usersaved._id}, process.env.TOKEN_SECRET, {expiresIn: 60});
           res.header('auth-token', token);
           return res.status(200).json({message: token});
      }catch(err){
@@ -32,7 +32,7 @@ Router.post('/signin', signin, async (req, res) => {
           if(!user) return res.status(404).json({message: "Usuario no registrado"});
           const password = bcrypt.compareSync(req.body.password, user.password);
           if(!password) return res.status(404).json({message: "Email o password incorrecto"});
-          const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, {expiresIn: "1h"});
+          const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, {expiresIn: 60});
           res.header('auth-token', token);
           return res.status(200).json({message: token});
      }catch(err){
